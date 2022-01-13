@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.IO;
 
 namespace matrixint
 {
     internal class Program
     {
-        private const string FilesPath = "C:\\Users\\olya\\source\\repos\\matrixint\\matrixint\\test_data";
-        private const string FilesPathRes = "C:\\Users\\olya\\source\\repos\\matrixint\\matrixint\\test_res";
+        private static readonly string FilesPath = $"{Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName}\\test_data";
+        private static readonly string FilesPathRes = $"{Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName}\\test_res";
 
         public static void Main(string[] args)
         {

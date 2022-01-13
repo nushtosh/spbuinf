@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using matrixint;
 using System;
 using System.Linq;
+using System.IO;
 
 namespace matrixinttest
 {
@@ -9,16 +10,17 @@ namespace matrixinttest
     [TestClass]
     public class UnitTest1
     {
-        private const string FilesPath = "C:\\Users\\olya\\source\\repos\\matrixint\\matrixint\\test_data";
-        private const string FilesPathRes = "C:\\Users\\olya\\source\\repos\\matrixint\\matrixint\\test_res";
+        private static readonly string FilesPath = $"{Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName}\\test_data";
+        private static readonly string FilesPathRes = $"{Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName}\\test_res";
+
         [TestMethod]
         public void TestMult()
         {
+
             var rw = new ReaderWriter<int>();
             var m1 = rw.ReadFile($"{FilesPath}\\matrix1.txt");
             var m2 = rw.ReadFile($"{FilesPath}\\matrix2.txt");
             var fact= rw.ReadFile($"{FilesPathRes}\\TestAct.txt");
-
             var tmp1 = m1.ToArray();
             var tmp2 = m2.ToArray();
             var tmpact = fact.ToArray();
@@ -30,13 +32,13 @@ namespace matrixinttest
             var mm3 = mm1.Mul(mm2);
 
             var tmp3 = mm3.Data.ToArray();
-            rw.WriteFile(tmp3, $"{FilesPathRes}\\resMatrix.txt");
             Assert.IsTrue(mm3.Equals(mact));
         }
 
         [TestMethod]
         public void TestMultExc()
         {
+            
             var rw = new ReaderWriter<int>();
             var m1 = rw.ReadFile($"{FilesPath}\\matrix1.txt");
             var m2 = rw.ReadFile($"{FilesPath}\\matrix3.txt");
