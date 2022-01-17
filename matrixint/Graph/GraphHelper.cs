@@ -29,7 +29,7 @@ namespace Graph
             return ag;
         }
 
-        public static TryFunc<int, IEnumerable<Edge<int>>> ShortestPathDijkstra<T>(AdjacencyGraph<int, Edge<int>> ag,
+        public static TryFunc<int, IEnumerable<Edge<int>>> ShortestPathDijkstra(AdjacencyGraph<int, Edge<int>> ag,
             int[][] mx, int fromVertex)
         {
             return ag.ShortestPathsDijkstra((edge) => mx[edge.Source][edge.Target], fromVertex);
@@ -78,9 +78,6 @@ namespace Graph
             Console.WriteLine($"File {filePath} was created");
         }
 
-        /**
-         * dot(GraphViz) need to be installed locally
-         */
         public static void DotToPdf(string from, string to)
         {
             var p = new Process();
@@ -101,28 +98,6 @@ namespace Graph
                 .Aggregate((acc, cur) => $"{acc}{Environment.NewLine}{cur}") + Environment.NewLine);
         }
 
-        public static int[][] TransitiveClosure<T>(int[][] matrix)
-        {
-            var len = matrix.Length;
-            var res = new int[len][];
-            for (var i = 0; i < len; i++)
-            {
-                res[i] = new int[len];
-                for (var j = 0; j < len; j++)
-                {
-                    res[i][j] = (matrix[i][j]==0) ? 0 : 1;
-                }
-            }
-
-            for (var k = 0; k < len; k++)
-                for (var i = 0; i < len; i++)
-                    for (var j = 0; j < len; j++)
-                        res[i][j] = res[i][j] > 0 ? 1 : ((res[i][k] > 0) && (res[k][j] > 0)) ? 1 : 0;
-
-            return res;
-        }
-
-        // mutate matrix
         public static double[][] FloydWarshall(int[][] matrix)
         {
             var len = matrix.Length;
@@ -137,13 +112,13 @@ namespace Graph
                     {
                         res[i][j] = 0;
                     }
-                    else if (matrix[i][j]==0)
+                    else if ((matrix[i][j])!=0)
                     {
                         res[i][j] = Double.PositiveInfinity;
                     }
                     else
                     {
-                        res[i][j] = matrix[i][j];
+                        res[i][j] = Convert.ToDouble(matrix[i][j]);
                     }
                 }
             }

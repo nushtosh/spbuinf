@@ -17,7 +17,7 @@ namespace Graph
             GraphHelper.PrintMatrix(matrix);
 
             var graph = GraphHelper.CreateGraph(matrix);
-            var tryFunc = GraphHelper.ShortestPathDijkstra<int>(graph, matrix, 0);
+            var tryFunc = GraphHelper.ShortestPathDijkstra(graph, matrix, 0);
             GraphHelper.CreateDotFileWithShortPath($"{FilesPath}\\graph.dot", graph, tryFunc);
             GraphHelper.DotToPdf($"{FilesPath}\\graph.dot", $"{FilesPath}\\graph.pdf");
         }

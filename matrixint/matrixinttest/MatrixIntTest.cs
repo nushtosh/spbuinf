@@ -8,7 +8,7 @@ namespace matrixinttest
 {
 
     [TestClass]
-    public class UnitTest1
+    public class MatrixIntTest
     {
         private static readonly string FilesPath = $"{Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName}\\test_data";
         private static readonly string FilesPathRes = $"{Directory.GetParent(Environment.CurrentDirectory)?.Parent?.Parent?.FullName}\\test_res";
