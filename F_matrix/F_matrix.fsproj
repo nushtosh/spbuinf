@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="RandomGenerators.fs" />
+    <None Include="test_data\res.dot" />
+    <Content Include="test_data\matrix.txt" />
+    <Content Include="test_data\matrixdouble1.txt" />
+    <Content Include="test_data\matrixdouble2.txt" />
+    <Content Include="test_data\matrixint1.txt" />
+    <Content Include="test_data\matrixint2.txt" />
+    <Content Include="test_data\res_double.txt" />
+    <Content Include="test_data\res_exp.txt" />
+    <Compile Include="Graph.fs" />
+    <Compile Include="Generic.fs" />
+    <Compile Include="Matrix.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="YC.QuickGraph" Version="3.7.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="6.0.1" />
+  </ItemGroup>
+
+</Project>
