@@ -58,11 +58,13 @@ let runProc filename args=
             reraise()
     if not started then
         failwithf "Failed to start process %s" filename
-    
-    printfn "Started %s with pid %i" p.ProcessName p.Id
+    printfn "Started %s with pid %i" 
     p.BeginOutputReadLine()
     p.BeginErrorReadLine()
     p.WaitForExit()
+    printfn "Finished %s" filename 
+    let cleanOut l = l |> Seq.filter (fun o -> String.IsNullOrEmpty o |> not)
+    cleanOut outputs,cleanOut errors
 
 
 
