@@ -2,70 +2,88 @@
 
 open System
 open F_matrix
+open Argu
+open mTypes
+open System.IO
 
 let MAX_VALUE_INT = 1000
 let MAX_VALUE_DOUBLE = 1000.0
 let MAX_VALUE_BOOLEAN = true
 
-let generateMatrix argv =
-    let options =
-        argv |> List.ofArray |> ArgsParser.parseArgsLine
+type Arguments =
+    | [<Mandatory>] Path of path:string
+    | [<Mandatory>] Size of size:int
+    | [<Mandatory>] Quant of quantity:int
+    | [<Mandatory>]Type of types: mtypes
+    interface IArgParserTemplate with
+        member s.Usage =
+            match s with
+            | Path _ -> "specify a working directory."
+            | Size _ -> "specify size of a matrix to be created."
+            | Quant _ -> "quantity of generated matrices."
+            | Type _ -> "type of the following matrix(int, bool, double, extended)."
 
-    if options.help then
-        printfn "MATRIX Generator Expert Supper Express v.0.1.1.0"
-        printfn "Options to specify:"
-        printfn "   /h /help        - print this manual"
-        printfn "   /n /size        - matrix size"
-        printfn "   /k /quantity    - quantity of generated matrices"
-        printfn "   /t /type        - one of the following types (int, bool, double, extended)"
-        printfn "   /p /path        - path were file will be saved"
-        printfn "If option is omitted will create one with default value."
-        printfn "Default values are: (size = 4, quantity = 1, type = int, path = './')"
-    else
-        for i = 1 to options.quantity do
-            match options._type with
-            | "int" ->
+let parser = ArgumentParser.Create<Arguments>(programName = "M_G")
+
+let toString et =
+    match et with
+    | INT -> "int"
+    | BOOL -> "boolean"
+    | DOUBLE -> "double"
+    | EXTENDED -> "extended"
+
+let usage = parser.PrintUsage()
+
+let generateMatrix argv =
+    try
+        let options = parser.ParseCommandLine argv
+        let path, size, quantity, types =
+            options.GetResult Path, options.GetResult Size, options.GetResult Quant, options.GetResult Type
+        
+        let path = Path.Combine [|path; toString types; string size|]
+        (ignore << Directory.CreateDirectory) path
+        let path = Path.Combine (path, "matrix")
+        for i = 1 to quantity do
+            match types with
+            | INT -> 
                 Matrix.writeFile 
                     (Matrix.stringify (
-                        Matrix.generateMatrix options.size options.size MAX_VALUE_INT RandomGenerators.randomInt
+                        Matrix.generateMatrix size size MAX_VALUE_INT RandomGenerators.randomInt
                     ))
-                    options.path
-                    options._type
-                    options.size
+                    path
+                    types
+                    size
                     $"matrix_{i}"
                 |> ignore
-            | "bool" ->
-                Matrix.writeFile
+            | BOOL -> 
+                Matrix.writeFile 
                     (Matrix.stringify (
-                        Matrix.generateMatrix options.size options.size MAX_VALUE_BOOLEAN RandomGenerators.randomBool
+                        Matrix.generateMatrix size size MAX_VALUE_BOOLEAN RandomGenerators.randomBool
                     ))
-                    options.path
-                    options._type
-                    options.size
+                    path
+                    types
+                    size
                     $"matrix_{i}"
                 |> ignore
-            | "double" ->
-                Matrix.writeFile
+            | DOUBLE -> 
+                Matrix.writeFile 
                     (Matrix.stringify (
-                        Matrix.generateMatrix options.size options.size MAX_VALUE_DOUBLE RandomGenerators.randomDouble
+                        Matrix.generateMatrix size size MAX_VALUE_DOUBLE RandomGenerators.randomDouble
                     ))
-                    options.path
-                    options._type
-                    options.size
+                    path
+                    types
+                    size
                     $"matrix_{i}"
                 |> ignore
-            | "extended" ->
-                Matrix.writeFile
+            | EXTENDED -> 
+                Matrix.writeFile 
                     (Matrix.stringify (
-                        Matrix.generateMatrix
-                            options.size
-                            options.size
-                            MAX_VALUE_DOUBLE
-                            RandomGenerators.randomExtendedDouble
+                        Matrix.generateMatrix size size MAX_VALUE_DOUBLE RandomGenerators.randomExtendedDouble
                     ))
-                    options.path
-                    options._type
-                    options.size
+                    path
+                    types
+                    size
                     $"matrix_{i}"
                 |> ignore
-            | _ -> raise (Exception("wrong type"))
+    with e -> eprintfn "%s" e.Message
+    0

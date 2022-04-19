@@ -7,8 +7,13 @@
 
   <ItemGroup>
     <Compile Include="ArgsParser.fs" />
+    <Compile Include="Types.fs" />
     <Compile Include="M_G.fs" />
     <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Argu" Version="6.1.1" />
   </ItemGroup>
 
   <ItemGroup>
