@@ -4,13 +4,15 @@ open System
 open F_matrix.Matrix
 open F_matrix.Generic
 open F_matrix.Graph
+open System.IO
 
 [<EntryPoint>]
 let main argv =
     try
-        let matrixA = "C://Users//olya//source//repos//F_matrix//F_test//test_data//matrix.txt"
-        let dotpath="C://Users//olya//source//repos//F_matrix//F_test//test_data//res.dot"
-        let rpath = "C://Users//olya//source//repos//F_matrix//F_test//test_data"
+        let _testDir = $"{Path.GetDirectoryName(Environment.CurrentDirectory)}\\..\\..\\test_data";
+        let matrixA = $"{_testDir}\\matrix.txt"
+        let dotpath= $"{_testDir}\\res.dot"
+        let rpath = $"{_testDir}"
         let a = readFromFile matrixA Convert<int>
         let ag= adjacencyGraph a
         let trans=transitiveClosure a

@@ -18,8 +18,7 @@ let exportToPdf (pathToDot: string) (pathToOutputDir: string) =
    pInfo.FileName <- "dot"
    pInfo.Arguments  <- sprintf "-Tpdf -o %s %s" outputFile pathToDot
    use p = Process.Start(pInfo)
-   p.WaitForExit(0) |> ignore
-   outputFile
+   if (p.WaitForExit(10000)) then outputFile else p.ExitCode.ToString()
 
 let adjacencyGraph (mx: _[,]) =
    let len = mx.GetLength 0
