@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="ArgsParser.fs" />
     <Compile Include="Types.fs" />
     <Compile Include="M_G.fs" />
     <Compile Include="Program.fs" />
