@@ -16,8 +16,8 @@ let private arrayToString array =
 
 
 let mulMatrix<'T> (matrix1: 'T[,]) (matrix2: 'T[,]) =
-    let result_row = (matrix1.GetLength 0)
-    let result_column = (matrix2.GetLength 1)
+    let result_row = matrix1.GetLength 0
+    let result_column = matrix2.GetLength 1
     
     let ret = Array2D.create result_row result_column Unchecked.defaultof<'T>
 
