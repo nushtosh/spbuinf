@@ -10,10 +10,6 @@ type Types =
     | Double of double
     | Boolean of bool
 
-let private arrayToString array =
-    let concat acc x = if acc = "" then (string x) else acc + ", " + (string x)
-    Array.fold concat "" array
-
 
 let mulMatrix<'T> (matrix1: 'T[,]) (matrix2: 'T[,]) =
     let result_row = matrix1.GetLength 0
